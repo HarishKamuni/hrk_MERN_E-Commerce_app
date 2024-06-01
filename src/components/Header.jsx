@@ -2,12 +2,15 @@ import React from 'react';
 import { IoSearchOutline } from 'react-icons/io5';
 import { FaCircleUser } from 'react-icons/fa6';
 import { FaShoppingCart } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   return (
-    <header className="h-16 shadow-md">
+    <header className="h-16 shadow-md bg-white">
       <div className="h-full container flex justify-between items-center mx-auto px-4">
-        <div className="mx-3">logo</div>
+        <div className="mx-3">
+          <Link to={'/'}>LOGO</Link>
+        </div>
         <div className="hidden lg:flex items-center justify-between w-full max-w-sm rounded-full focus-within:shadow-sm">
           <input
             placeholder="search product here..."
@@ -30,9 +33,12 @@ const Header = () => {
               0
             </div>
           </div>
-          <div className="bg-red-600 px-3 py-1 rounded-full text-white hover:bg-red-700 cursor-pointer capitalize">
+          <Link
+            to={'/login'}
+            className="bg-red-600 px-3 py-1 rounded-full text-white hover:bg-red-700 cursor-pointer capitalize"
+          >
             login
-          </div>
+          </Link>
         </div>
       </div>
     </header>
