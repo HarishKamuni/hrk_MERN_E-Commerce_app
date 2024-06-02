@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import signin from '../assest/signin.gif';
 import { Link } from 'react-router-dom';
 import imageToBase64 from '../helpers/imageTobase64';
+import SummeryApi from '../common';
 
 const SignUp = () => {
   const [inputData, setInputData] = useState({
@@ -27,9 +28,22 @@ const SignUp = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(inputData);
+    if (inputData.password === inputData.confirmPassword) {
+      const res = await fetch(SummeryApi.signUp.url, {
+        method: SummeryApi.signUp.method,
+        headers: {
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify(inputData),
+      });
+      const data = await res.json();
+      console.log('data:', data.message);
+    } else {
+      console.log('please check password');
+    }
   };
   return (
     <section id="login">
