@@ -1,20 +1,39 @@
 import React, { useState } from 'react';
 import signin from '../assest/signin.gif';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import SummeryApi from '../common';
+import { toast } from 'react-toastify';
 
 const Login = () => {
   const [inputData, setInputData] = useState({
     email: '',
     password: '',
   });
+  const navigate = useNavigate();
   const handleChange = (e) => {
     const { name, value } = e.target;
     setInputData({ ...inputData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(inputData);
+    const res = await fetch(SummeryApi.signIn.url, {
+      method: SummeryApi.signIn.method,
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(inputData),
+    });
+    const data = await res.json();
+    if (data.success) {
+      toast.success(data.message);
+      navigate('/');
+    }
+    if (data.error) {
+      toast.error(data.message);
+    }
   };
   return (
     <section id="login">

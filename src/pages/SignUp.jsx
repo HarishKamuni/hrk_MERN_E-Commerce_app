@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import signin from '../assest/signin.gif';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import imageToBase64 from '../helpers/imageTobase64';
 import SummeryApi from '../common';
+import { toast } from 'react-toastify';
 
 const SignUp = () => {
   const [inputData, setInputData] = useState({
@@ -12,6 +13,7 @@ const SignUp = () => {
     confirmPassword: '',
     profilePic: '',
   });
+  const navigate = useNavigate();
   const handleChange = (e) => {
     const { name, value } = e.target;
     setInputData({ ...inputData, [name]: value });
@@ -40,7 +42,15 @@ const SignUp = () => {
         body: JSON.stringify(inputData),
       });
       const data = await res.json();
-      console.log('data:', data.message);
+      if (data.success) {
+        toast.success(data.message);
+        navigate('/login');
+      }
+      if (data.error) {
+        toast.error(data.message);
+      }
+
+      // console.log('data:', data.message);
     } else {
       console.log('please check password');
     }
