@@ -7,15 +7,21 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useEffect } from 'react';
 import SummeryApi from './common';
 import Context from './context';
+import { useDispatch } from 'react-redux';
+import { setUserDetails } from './store/slices/userSlice';
 
 function App() {
+  const dispatch = useDispatch();
   const fetchUserDetails = async () => {
     const res = await fetch(SummeryApi.currentUser.url, {
       method: SummeryApi.currentUser.method,
       credentials: 'include',
     });
     const data = await res.json();
-    console.log(data);
+    if (data.success) {
+      dispatch(setUserDetails(data.data));
+    }
+    // console.log(data);
   };
   useEffect(() => {
     fetchUserDetails();

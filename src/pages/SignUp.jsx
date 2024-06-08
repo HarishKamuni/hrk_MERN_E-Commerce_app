@@ -32,7 +32,7 @@ const SignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(inputData);
+    // console.log(inputData);
     if (inputData.password === inputData.confirmPassword) {
       const res = await fetch(SummeryApi.signUp.url, {
         method: SummeryApi.signUp.method,
@@ -43,6 +43,7 @@ const SignUp = () => {
         body: JSON.stringify(inputData),
       });
       const data = await res.json();
+      console.log(data?.profilePic);
       if (data.success) {
         toast.success(data.message);
         navigate('/login');

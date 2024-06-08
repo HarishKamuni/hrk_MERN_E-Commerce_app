@@ -3,8 +3,11 @@ import { IoSearchOutline } from 'react-icons/io5';
 import { FaCircleUser } from 'react-icons/fa6';
 import { FaShoppingCart } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const Header = () => {
+  const { user } = useSelector((state) => state.user);
+  console.log(user);
   return (
     <header className="h-16 shadow-md bg-white">
       <div className="h-full container flex justify-between items-center mx-auto px-4">
@@ -23,7 +26,15 @@ const Header = () => {
         </div>
         <div className="flex items-center gap-7">
           <div className="text-3xl cursor-pointer">
-            <FaCircleUser />
+            {user?.profilePic ? (
+              <img
+                src={user?.profilePic}
+                alt="profilePic"
+                className="w-[40px] h-[40px] object-cover rounded-full"
+              />
+            ) : (
+              <FaCircleUser />
+            )}
           </div>
           <div className="flex relative">
             <span className="text-2xl">
