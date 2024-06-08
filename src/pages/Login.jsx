@@ -1,14 +1,17 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import signin from '../assest/signin.gif';
 import { Link, useNavigate } from 'react-router-dom';
 import SummeryApi from '../common';
 import { toast } from 'react-toastify';
+import Context from '../context';
 
 const Login = () => {
   const [inputData, setInputData] = useState({
     email: '',
     password: '',
   });
+  const { fetchUserDetails } = useContext(Context);
+
   const navigate = useNavigate();
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,6 +33,7 @@ const Login = () => {
     if (data.success) {
       toast.success(data.message);
       navigate('/');
+      fetchUserDetails();
     }
     if (data.error) {
       toast.error(data.message);

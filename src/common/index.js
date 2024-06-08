@@ -9,5 +9,9 @@ const SummeryApi = {
     url: `${backendDomain}/api/auth/signin`,
     method: 'post',
   },
+  currentUser: {
+    url: `${backendDomain}/api/auth/userdetails`,
+    method: 'get',
+  },
 };
 export default SummeryApi;

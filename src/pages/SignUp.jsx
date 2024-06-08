@@ -39,6 +39,7 @@ const SignUp = () => {
         headers: {
           'content-type': 'application/json',
         },
+
         body: JSON.stringify(inputData),
       });
       const data = await res.json();
