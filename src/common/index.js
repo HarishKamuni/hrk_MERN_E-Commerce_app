@@ -13,5 +13,9 @@ const SummeryApi = {
     url: `${backendDomain}/api/auth/userdetails`,
     method: 'get',
   },
+  signOut: {
+    url: `${backendDomain}/api/auth/logout`,
+    method: 'get',
+  },
 };
 export default SummeryApi;

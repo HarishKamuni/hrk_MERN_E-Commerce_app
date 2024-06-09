@@ -1,13 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { IoSearchOutline } from 'react-icons/io5';
 import { FaCircleUser } from 'react-icons/fa6';
 import { FaShoppingCart } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import SummeryApi from '../common';
+import { toast } from 'react-toastify';
+import { setUserDetails } from '../store/slices/userSlice';
 
 const Header = () => {
   const { user } = useSelector((state) => state.user);
+  const [displayMenu, setDisplayMenu] = useState(false);
+  const dispatch = useDispatch();
   console.log(user);
+  const handleSignOut = async () => {
+    const res = await fetch(SummeryApi.signOut.url, {
+      method: SummeryApi.signOut.method,
+      credentials: 'include',
+    });
+    const data = await res.json();
+    if (data.success) {
+      toast.success(data.message);
+      dispatch(setUserDetails(null));
+    }
+    if (data.error) {
+      toast.error(data.message);
+    }
+  };
   return (
     <header className="h-16 shadow-md bg-white">
       <div className="h-full container flex justify-between items-center mx-auto px-4">
@@ -25,15 +44,32 @@ const Header = () => {
           </span>
         </div>
         <div className="flex items-center gap-7">
-          <div className="text-3xl cursor-pointer">
-            {user?.profilePic ? (
-              <img
-                src={user?.profilePic}
-                alt="profilePic"
-                className="w-[40px] h-[40px] object-cover rounded-full"
-              />
-            ) : (
-              <FaCircleUser />
+          <div
+            className="relative flex justify-center "
+            onClick={() => setDisplayMenu(!displayMenu)}
+          >
+            <div className="text-3xl cursor-pointer">
+              {user?.profilePic ? (
+                <img
+                  src={user?.profilePic}
+                  alt={user?.name}
+                  className="w-[40px] h-[40px] object-cover rounded-full"
+                />
+              ) : (
+                <FaCircleUser />
+              )}
+            </div>
+            {displayMenu && (
+              <div className="absolute bottom-0 top-12 bg-white h-fit p-2 shadow-lg rounded  ">
+                <nav>
+                  <Link
+                    to={'admin-panel'}
+                    className="whitespace-nowrap hover:bg-slate-100 p-2"
+                  >
+                    Admin Panel
+                  </Link>
+                </nav>
+              </div>
             )}
           </div>
           <div className="flex relative">
@@ -44,12 +80,22 @@ const Header = () => {
               0
             </div>
           </div>
-          <Link
-            to={'/login'}
-            className="bg-red-600 px-3 py-1 rounded-full text-white hover:bg-red-700 cursor-pointer capitalize"
-          >
-            login
-          </Link>
+          {user?._id ? (
+            <Link
+              to={'/login'}
+              onClick={handleSignOut}
+              className="bg-red-600 px-3 py-1 rounded-full text-white hover:bg-red-700 cursor-pointer capitalize"
+            >
+              Logout
+            </Link>
+          ) : (
+            <Link
+              to={'/login'}
+              className="bg-red-600 px-3 py-1 rounded-full text-white hover:bg-red-700 cursor-pointer capitalize"
+            >
+              login
+            </Link>
+          )}
         </div>
       </div>
     </header>
