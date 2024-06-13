@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import signin from '../assest/signin.gif';
 import { Link, useNavigate } from 'react-router-dom';
 import imageToBase64 from '../helpers/imageTobase64';
-import SummeryApi from '../common';
 import { toast } from 'react-toastify';
+import SummaryApi from '../common';
 
 const SignUp = () => {
   const [inputData, setInputData] = useState({
@@ -34,8 +34,8 @@ const SignUp = () => {
     e.preventDefault();
     // console.log(inputData);
     if (inputData.password === inputData.confirmPassword) {
-      const res = await fetch(SummeryApi.signUp.url, {
-        method: SummeryApi.signUp.method,
+      const res = await fetch(SummaryApi.signUp.url, {
+        method: SummaryApi.signUp.method,
         headers: {
           'content-type': 'application/json',
         },
@@ -43,7 +43,7 @@ const SignUp = () => {
         body: JSON.stringify(inputData),
       });
       const data = await res.json();
-      console.log(data?.profilePic);
+      // console.log(data?.profilePic);
       if (data.success) {
         toast.success(data.message);
         navigate('/login');
@@ -54,7 +54,7 @@ const SignUp = () => {
 
       // console.log('data:', data.message);
     } else {
-      console.log('please check password');
+      toast.error('please check password');
     }
   };
   return (

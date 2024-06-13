@@ -1,6 +1,6 @@
 const backendDomain = 'http://localhost:8080';
 
-const SummeryApi = {
+const SummaryApi = {
   signUp: {
     url: `${backendDomain}/api/auth/signup`,
     method: 'post',
@@ -9,13 +9,22 @@ const SummeryApi = {
     url: `${backendDomain}/api/auth/signin`,
     method: 'post',
   },
-  currentUser: {
-    url: `${backendDomain}/api/auth/userdetails`,
-    method: 'get',
-  },
+
   signOut: {
     url: `${backendDomain}/api/auth/logout`,
     method: 'get',
   },
+  currentUser: {
+    url: `${backendDomain}/api/user/userdetails`,
+    method: 'get',
+  },
+  allUsers: {
+    url: `${backendDomain}/api/user/all-users`,
+    method: 'get',
+  },
+  updateUser: {
+    url: `${backendDomain}/api/user/update-user`,
+    method: 'post',
+  },
 };
-export default SummeryApi;
+export default SummaryApi;

@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react';
 import signin from '../assest/signin.gif';
 import { Link, useNavigate } from 'react-router-dom';
-import SummeryApi from '../common';
 import { toast } from 'react-toastify';
 import Context from '../context';
+import SummaryApi from '../common';
 
 const Login = () => {
   const [inputData, setInputData] = useState({
@@ -20,9 +20,9 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(inputData);
-    const res = await fetch(SummeryApi.signIn.url, {
-      method: SummeryApi.signIn.method,
+    // console.log(inputData);
+    const res = await fetch(SummaryApi.signIn.url, {
+      method: SummaryApi.signIn.method,
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
