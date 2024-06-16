@@ -8,16 +8,18 @@ import { MdDelete } from 'react-icons/md';
 import SummaryApi from '../common';
 import { toast } from 'react-toastify';
 
-const UploadProduct = ({ onClose, fetchAllProducts }) => {
+const EditProduct = ({ onClose, data, fetchAllProduct }) => {
   const [productForm, setProductForm] = useState({
-    productName: '',
-    barndName: '',
-    category: '',
-    productImage: [],
-    description: '',
-    price: '',
-    selling: '',
+    ...data,
+    productName: data.productName,
+    barndName: data.barndName,
+    category: data.category,
+    productImage: [...data.productImage],
+    description: data.description,
+    price: data.price,
+    selling: data.selling,
   });
+  console.log(data);
   const [openPopup, setOpenPopup] = useState(false);
   const [imgUrl, setImgUrl] = useState('');
   const handleChange = (e) => {
@@ -50,8 +52,8 @@ const UploadProduct = ({ onClose, fetchAllProducts }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const res = await fetch(SummaryApi.uploadProduct.url, {
-      method: SummaryApi.uploadProduct.method,
+    const res = await fetch(SummaryApi.updateProduct.url, {
+      method: SummaryApi.updateProduct.method,
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
@@ -59,21 +61,21 @@ const UploadProduct = ({ onClose, fetchAllProducts }) => {
       body: JSON.stringify(productForm),
     });
     const data = await res.json();
-    console.log('product data', data);
+    console.log('updated product', data);
     if (data.success) {
       toast.success(data.message);
       onClose();
-      fetchAllProducts();
+      fetchAllProduct();
     }
     if (data.error) {
       toast.error(data.error);
     }
   };
   return (
-    <div className="fixed bg-slate-200 top-0 left-0 bottom-0 right-0 w-full h-full flex items-center justify-center bg-opacity-40 ">
+    <div className="fixed bg-slate-200 top-0 left-0 bottom-0 right-0 w-full h-full flex items-center justify-center bg-opacity-40 z-50">
       <div className="bg-white p-4 max-w-2xl w-full rounded h-full max-h-[80%] overflow-hidden">
         <div className="flex justify-between items-center">
-          <h1 className="font-medium text-lg">Upload Product</h1>
+          <h1 className="font-medium text-lg">Edit Product</h1>
           <button className="hover:text-red-600" onClick={onClose}>
             <IoMdClose size={20} />
           </button>
@@ -204,12 +206,13 @@ const UploadProduct = ({ onClose, fetchAllProducts }) => {
             rows="10"
             className="h-28 bg-slate-100 resize-none mb-2 p-2 outline-none"
             onChange={handleChange}
+            value={productForm.description}
           ></textarea>
           <button
             type="submit"
             className="mb-10 bg-red-500  py-2 rounded-md text-white text-lg  hover:bg-red-600  transition-all"
           >
-            Upload Product
+            Update Product
           </button>
         </form>
       </div>
@@ -220,4 +223,4 @@ const UploadProduct = ({ onClose, fetchAllProducts }) => {
   );
 };
 
-export default UploadProduct;
+export default EditProduct;
